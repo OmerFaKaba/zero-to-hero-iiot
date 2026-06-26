@@ -57,8 +57,8 @@ As soon as the sensor script runs, it starts publishing data to the factory/room
 You should see a real-time stream in the subscriber terminal similar to this:
 
 ```bash
-YENİ VERİ GELDİ -> Konu: wisersense/staj/test | Mesaj: Motor Sicakligi: 24.1 C
-YENİ VERİ GELDİ -> Konu: wisersense/staj/test | Mesaj: Motor Sicakligi: 26.93 C
+YENİ VERİ GELDİ -> Konu: factory/room/test | Mesaj: Motor Sicakligi: 24.1 C
+YENİ VERİ GELDİ -> Konu: factory/room/test | Mesaj: Motor Sicakligi: 26.93 C
 ```
 
 
