@@ -1,29 +1,39 @@
 import paho.mqtt.client as mqtt
 import time
 import random
+import json
 
 # MQTT istemcisini oluşturuyoruz 
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 
-# Aynı test Broker'ına bağlanıyoruz
+# Test Broker'ına bağlanıyoruz
 client.connect("broker.emqx.io",1883,60)
 
-print("Sensör çalışmaya başladı. Veri gönderiliyor...")
+print("Sensör JSON formatında veri göndermeye başaldı (QoS 1)...")
 
-# Sensör sürekli çalışsın diye bir döngü kuruyoruz
-try:
+try: 
     while True:
-        # Rastgele bir sıcaklık değeri üretiyoruz (örneğin 20.0 ile 30.0 arası)
-        sahte_sicaklik = round(random.uniform(20.0,30.0),2)
-        mesaj = f"Motor Sicakligi: {sahte_sicaklik} C"
+        # Rastgele sıcaklık ve nem değerleri üretiyoruz
+        sahte_sicaklik = round(random.uniform(20.0,35.0),2)
+        sahte_nem = round(random.uniform(40.0,60.0),2)
 
-        # Ürettiğimiz veriyi 'factory/room/test' topic'e gönderiyoruz
-        client.publish("factory/room/test",mesaj)
-        print(f"Gönderildi: {mesaj}")
+        # JSON
+        veri_paketi = {
+            "cihaz_id": "motor_01",
+            "sicaklik": sahte_sicaklik,
+            "nem": sahte_nem,
+            "zaman_damgasi": int(time.time())
+        }
 
-        # Sensör 3 saniyede bir veri göndersin
+        # Sözlüğü metne çeviriyoruz
+        json_mesaj  = json.dumps(veri_paketi)
+
+        # Veriyi Qos=1 seviyesinde gönderiyoruz
+        client.publish("factory/room/test",json_mesaj,qos=1)
+        print(f" Gönderildi -> {json_mesaj}")
+        
+
         time.sleep(3)
-
 except KeyboardInterrupt:
-    print("\nSensör kapatıldı")
-    client.disconnect()
+    print("\nSensör kapatıldı.")
+    client.disconnect
