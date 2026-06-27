@@ -62,5 +62,14 @@ YENİ VERİ GELDİ -> Konu: factory/room/test | Mesaj: Motor Sicakligi: 26.93 C
 ```
 
 
-Next Step (Day 2 Goal)
-To permanently save this real-time temperature data flowing through the terminal into a Time Series Database (InfluxDB) to enable historical analysis and predictive maintenance.
+## Day 2: Data Persistence and InfluxDB Integration 🗄️
+
+As part of the second day, **InfluxDB**, a Time Series Database (TSDB), was integrated into the system to enable historical analysis of real-time streaming data (establishing the foundation for predictive maintenance).
+
+**Improvements Made:**
+* **Transition to JSON Format:** Sensor data (temperature and humidity) was converted from plain text to the industry-standard JSON format, making it easier to parse and process.
+* **QoS 1 (Quality of Service):** To prevent data loss during network interruptions, the MQTT communication level was upgraded to QoS 1 ("At least once" delivery guarantee).
+* **InfluxDB Docker Setup:** Instead of installing it on the local machine, InfluxDB was spun up as an isolated Docker container.
+* **Python - InfluxDB Bridge:** The `influxdb-client` was integrated into the `dinleyici.py` service, ensuring that data captured from MQTT is written to the InfluxDB 'sensor_verileri' bucket in real-time.
+
+**Technologies Used:** InfluxDB 2.7, Docker, Python `influxdb-client`, JSON
